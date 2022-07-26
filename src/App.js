@@ -3,25 +3,25 @@ import { useEffect, useState } from "react";
 import renderGraph from "./functions/renderGraph"
 import axios from 'axios'
 import Node from "./components/Node";
+import url from "./globals"
 
 function App() {
-  const url = "http://localhost:3001/api/"
   const [graph, setGraph] = useState({ nodes: [], links: [] })
   const [focus, setFocus] = useState(null)
 
   const refresh = () => axios
-    .get(url + 'graph/')
-    .then((graph) => { setGraph(graph.data) })
+    .get(url + '/graph')
+    .then((response) => { setGraph(response.data) })
 
   const addNode = (source) => axios
-    .post(url + 'graph/nodes/', source)
+    .post(url + '/graph/nodes', source)
     .then((response) => {
       refresh()
       setFocus(response.data)
     })
 
   const deleteNode = (node) => axios
-    .delete(url + 'graph/nodes/' + node.id)
+    .delete(url + '/graph/nodes/' + node.id)
     .then(() => {
       refresh()
       setFocus(null)

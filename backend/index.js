@@ -6,15 +6,21 @@ app.use(express.json())
 app.use(cors())
 
 const graph = {
-  "nodes": [
-    { id: 0, group: 1 },
-    { id: 1, group: 1 }
-  ],
+  "nodes": [{ id: 0, group: 1 }, { id: 1, group: 1 }],
   "links": [{ id: 2, source: 0, target: 1 }]
+}
+
+const resources = {
+  "0": [{ id: 3, title: "netflix" }, { id: 4, title: "google" }],
+  "1": [{ id: 5, title: "youtube" }, { id: 6, title: "reddit" }]
 }
 
 app.get('/api/graph', (_request, response) => {
   response.json(graph).status(200).end()
+})
+
+app.get('/api/nodes/:id/resources', (request, response) => {
+  response.json(resources[request.params.id]).status(200).end()
 })
 
 const generateIdPair = () => {
