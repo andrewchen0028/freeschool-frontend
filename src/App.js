@@ -1,23 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+
+import renderGraph from "./functions/renderGraph"
+import axios from 'axios'
 
 function App() {
+  const url = "http://localhost:3001/api/"
+  const [graph, setGraph] = useState({ nodes: [], links: [] })
+
+  const refresh = () =>
+    axios.get(url + 'graph/').then((graph) => { setGraph(graph.data) })
+
+  useEffect(() => { refresh() }, [])
+  useEffect(() => { renderGraph(graph, () => { }) }, [graph])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={() => refresh()}>Refresh</button>
+      <div id='graph' />
     </div>
   );
 }

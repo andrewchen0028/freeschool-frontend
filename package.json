@@ -9,6 +9,7 @@
     "axios": "^0.27.2",
     "cors": "^2.8.5",
     "express": "^4.18.1",
+    "force-graph": "^1.42.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -18,7 +19,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "frontend": "react-scripts start",
+    "backend": "nodemon backend/index.js"
   },
   "eslintConfig": {
     "extends": [
