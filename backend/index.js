@@ -34,6 +34,14 @@ app.post('/api/graph/nodes/', (request, response) => {
   response.json(node).status(200).end()
 })
 
+app.delete('/api/graph/nodes/:id', (request, response) => {
+  const id = Number(request.params.id)
+  graph.nodes = graph.nodes.filter(node => node.id !== id)
+  graph.links = graph.links.filter(link => link.source !== id)
+  graph.links = graph.links.filter(link => link.target !== id)
+  response.status(204).end()
+})
+
 const PORT = 3001
 app.listen(PORT)
 console.log(`server running on port ${PORT}`)
