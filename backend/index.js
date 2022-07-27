@@ -1,25 +1,16 @@
 const cors = require("cors")
 const express = require("express")
+const { v4: uuidv4 } = require('uuid');
 
 const app = express()
 app.use(express.json())
 app.use(cors())
 
 const graph = {
-  "nodes": [{ id: 0, group: 1 }, { id: 1, group: 1 }],
-  "links": [{ id: 2, source: 0, target: 1 }]
+  "nodes": [{ id: uuidv4(), group: 0 }],
+  "links": []
 }
-
-const resources = {
-  "0": [
-    { id: 3, title: "reddit", url: "https://reddit.com" },
-    { id: 4, title: "google", url: "https://google.com" }
-  ],
-  "1": [
-    { id: 5, title: "youtube", url: "https://youtube.com" },
-    { id: 6, title: "netflix", url: "https://netflix.com" }
-  ]
-}
+const resources = {}
 
 app.get('/api/graph', (_request, response) => {
   response.json(graph).status(200).end()
@@ -29,16 +20,8 @@ app.get('/api/nodes/:id/resources', (request, response) => {
   response.json(resources[request.params.id]).status(200).end()
 })
 
-const generateIdPair = () => {
-  const maxNodeId = graph.nodes.length > 0 ?
-    Math.max(...graph.nodes.map(node => node.id)) : 0
-  const maxLinkId = graph.links.length > 0 ?
-    Math.max(...graph.links.map(link => link.id)) : 0
-  return [maxNodeId + 1, maxLinkId + 1]
-}
-
 app.post('/api/graph/nodes/', (request, response) => {
-  const [nodeId, linkId] = generateIdPair()
+  const [nodeId, linkId] = [uuidv4(), uuidv4()]
   const node = { id: nodeId, group: request.body.group }
   const link = { source: request.body.id, target: nodeId, id: linkId }
   graph.nodes = graph.nodes.concat(node)
@@ -46,8 +29,19 @@ app.post('/api/graph/nodes/', (request, response) => {
   response.json(node).status(200).end()
 })
 
+app.post('/api/nodes/:id/resources', (request, response) => {
+  const [nodeId, resourceId] = [request.params.id, uuidv4()]
+  if (!resources[nodeId]) { resources[nodeId] = [] }
+  resources[nodeId] = resources[nodeId].concat({
+    id: resourceId,
+    title: request.body.title,
+    url: request.body.url
+  })
+  response.json(resources[nodeId][resourceId]).status(200).end()
+})
+
 app.delete('/api/graph/nodes/:id', (request, response) => {
-  const id = Number(request.params.id)
+  const id = request.params.id
   graph.nodes = graph.nodes.filter(node => node.id !== id)
   graph.links = graph.links.filter(link => link.source !== id)
   graph.links = graph.links.filter(link => link.target !== id)

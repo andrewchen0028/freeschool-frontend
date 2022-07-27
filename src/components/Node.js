@@ -1,28 +1,57 @@
 import axios from "axios"
 import url from "../globals"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Resource from "./Resource"
 
 function Node(focus) {
   const node = focus.node
   const [resources, setResources] = useState([])
+  const [stagedResourceTitle, setStagedResourceTitle] = useState("")
+  const [stagedResourceUrl, setStagedResourceUrl] = useState("")
 
-  useEffect(() => {
+  const addResource = (event) => {
+    event.preventDefault()
+    setStagedResourceUrl("")
+    setStagedResourceTitle("")
+    axios
+      .post(url + "/nodes/" + node.id + "/resources", {
+        title: stagedResourceTitle,
+        url: stagedResourceUrl
+      })
+      .then(response => {
+        console.log(response)
+        refresh()
+      })
+  }
+
+  const refresh = useCallback(() => {
     let buffer = []
     axios.get(url + '/nodes/' + node.id + '/resources')
-      .then((response) => response.data.forEach(resource =>
-        buffer.push(<Resource key={resource.id} resource={resource} />)
-      ))
+      .then((response) => {
+        response.data.forEach(resource => buffer.push(resource))
+      })
       .then(() => setResources(buffer))
       .catch(() => setResources([]))
-  }, [node]
-  )
+  }, [node.id])
+
+  useEffect(() => refresh(), [node, refresh])
 
   return (
     <div>
       <h1>focus: {node.id}</h1>
-      {resources}
+      {resources.map((resource) => {
+        return <Resource key={resource.id} resource={resource} />
+      })}
+      <form onSubmit={addResource}>
+        <input value={stagedResourceTitle}
+          onChange={(event) => setStagedResourceTitle(event.target.value)}
+          placeholder='title' />
+        <input value={stagedResourceUrl}
+          onChange={(event) => setStagedResourceUrl(event.target.value)}
+          placeholder='url' />
+        <button type="submit">submit resource</button>
+      </form>
     </div>
   )
 }
