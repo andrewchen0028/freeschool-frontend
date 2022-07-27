@@ -1,14 +1,14 @@
-const cors = require("cors")
-const express = require("express")
-const { v4: uuidv4 } = require('uuid');
+const cors = require('cors')
+const express = require('express')
+const { v4: uuidv4 } = require('uuid')
 
 const app = express()
 app.use(express.json())
 app.use(cors())
 
 const graph = {
-  "nodes": [{ id: uuidv4(), group: 0 }],
-  "links": []
+  'nodes': [{ id: uuidv4(), group: 0 }],
+  'links': []
 }
 const resources = {}
 

@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
-import renderGraph from "./functions/renderGraph"
+import renderGraph from './functions/renderGraph'
 import axios from 'axios'
-import Node from "./components/Node";
-import url from "./globals"
+import Node from './components/Node'
+import url from './globals'
 
 function App() {
   const [graph, setGraph] = useState({ nodes: [], links: [] })
@@ -31,7 +31,7 @@ function App() {
   useEffect(() => { renderGraph(graph, setFocus) }, [graph])
 
   return (
-    <div className="App">
+    <div className='App'>
       <button onClick={() => refresh()}>refresh graph</button>
       {focus == null ? <h1>click a node to focus</h1> :
         <div>
@@ -42,7 +42,7 @@ function App() {
         </div>}
       <div id='graph' />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -1,21 +1,21 @@
-import axios from "axios"
-import url from "../globals"
+import axios from 'axios'
+import url from '../globals'
 
-import { useCallback, useEffect, useState } from "react"
-import Resource from "./Resource"
+import { useCallback, useEffect, useState } from 'react'
+import Resource from './Resource'
 
 function Node(focus) {
   const node = focus.node
   const [resources, setResources] = useState([])
-  const [stagedResourceTitle, setStagedResourceTitle] = useState("")
-  const [stagedResourceUrl, setStagedResourceUrl] = useState("")
+  const [stagedResourceTitle, setStagedResourceTitle] = useState('')
+  const [stagedResourceUrl, setStagedResourceUrl] = useState('')
 
   const addResource = (event) => {
     event.preventDefault()
-    setStagedResourceUrl("")
-    setStagedResourceTitle("")
+    setStagedResourceUrl('')
+    setStagedResourceTitle('')
     axios
-      .post(url + "/nodes/" + node.id + "/resources", {
+      .post(url + '/nodes/' + node.id + '/resources', {
         title: stagedResourceTitle,
         url: stagedResourceUrl
       })
@@ -50,7 +50,7 @@ function Node(focus) {
         <input value={stagedResourceUrl}
           onChange={(event) => setStagedResourceUrl(event.target.value)}
           placeholder='url' />
-        <button type="submit">submit resource</button>
+        <button type='submit'>submit resource</button>
       </form>
     </div>
   )
