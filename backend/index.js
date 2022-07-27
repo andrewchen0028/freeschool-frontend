@@ -11,8 +11,14 @@ const graph = {
 }
 
 const resources = {
-  "0": [{ id: 3, title: "netflix" }, { id: 4, title: "google" }],
-  "1": [{ id: 5, title: "youtube" }, { id: 6, title: "reddit" }]
+  "0": [
+    { id: 3, title: "reddit", url: "https://reddit.com" },
+    { id: 4, title: "google", url: "https://google.com" }
+  ],
+  "1": [
+    { id: 5, title: "youtube", url: "https://youtube.com" },
+    { id: 6, title: "netflix", url: "https://netflix.com" }
+  ]
 }
 
 app.get('/api/graph', (_request, response) => {

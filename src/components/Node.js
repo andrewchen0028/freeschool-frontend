@@ -2,6 +2,7 @@ import axios from "axios"
 import url from "../globals"
 
 import { useEffect, useState } from "react"
+import Resource from "./Resource"
 
 function Node(focus) {
   const node = focus.node
@@ -11,7 +12,7 @@ function Node(focus) {
     let buffer = []
     axios.get(url + '/nodes/' + node.id + '/resources')
       .then((response) => response.data.forEach(resource =>
-        buffer.push(<h1 key={resource.id}>{resource.title}</h1>)
+        buffer.push(<Resource key={resource.id} resource={resource} />)
       ))
       .then(() => setResources(buffer))
       .catch(() => setResources([]))
