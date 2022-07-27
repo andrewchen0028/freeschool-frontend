@@ -39,7 +39,7 @@ function Node(focus) {
 
   return (
     <div>
-      <h1>focus: {node.id}</h1>
+      <h1>focus: {node.title}</h1>
       <ResourceList resources={resources} />
       <form onSubmit={addResource}>
         <input value={stagedResourceTitle}

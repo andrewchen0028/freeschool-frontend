@@ -6,7 +6,7 @@ function renderGraph(graphData, onNodeClick) {
     .graphData(graphData)
     .nodeAutoColorBy("group")
     .nodeCanvasObject((node, ctx, globalScale) => {
-      const label = node.id
+      const label = node.title
       const fontSize = 14 / globalScale
       ctx.font = `${fontSize}px Sans-Serif`
       const textWidth = ctx.measureText(label).width

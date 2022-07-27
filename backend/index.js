@@ -7,7 +7,7 @@ app.use(express.json())
 app.use(cors())
 
 const graph = {
-  "nodes": [{ id: uuidv4(), group: 0 }],
+  "nodes": [{ id: uuidv4(), group: 0, title: "root" }],
   "links": []
 }
 const resources = {}
@@ -21,9 +21,16 @@ app.get("/api/nodes/:id/resources", (request, response) => {
 })
 
 app.post("/api/graph/nodes/", (request, response) => {
-  const [nodeId, linkId] = [uuidv4(), uuidv4()]
-  const node = { id: nodeId, group: request.body.group }
-  const link = { source: request.body.id, target: nodeId, id: linkId }
+  const node = {
+    id: uuidv4(),
+    group: request.body.group,
+    title: request.body.title
+  }
+  const link = {
+    source: request.body.sourceId,
+    target: node.id,
+    id: uuidv4()
+  }
   graph.nodes = graph.nodes.concat(node)
   graph.links = graph.links.concat(link)
   response.json(node).status(200).end()

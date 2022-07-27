@@ -8,13 +8,17 @@ import url from "./globals"
 function App() {
   const [graph, setGraph] = useState({ nodes: [], links: [] })
   const [focus, setFocus] = useState(null)
+  const [stagedNodeTitle, setStagedNodeTitle] = useState("")
 
   const refresh = () => axios
     .get(url + "/graph")
     .then((response) => { setGraph(response.data) })
 
-  const addNode = (source) => axios
-    .post(url + "/graph/nodes", source)
+  const addNode = () => axios
+    .post(url + "/graph/nodes", {
+      sourceId: focus.id,
+      title: stagedNodeTitle
+    })
     .then((response) => {
       refresh()
       setFocus(response.data)
@@ -36,7 +40,12 @@ function App() {
       {focus == null ? <h1>click a node to focus</h1> :
         <div>
           <Node node={focus} />
-          <button onClick={() => addNode(focus)}>add child</button>
+          <form onSubmit={addNode}>
+            <input value={stagedNodeTitle}
+              onChange={(event) => setStagedNodeTitle(event.target.value)}
+              placeholder="title" />
+            <button type="submit">submit node</button>
+          </form>
           <button onClick={() => deleteNode(focus)}>delete node</button>
           <button onClick={() => setFocus(null)}>exit focus</button>
         </div>}
