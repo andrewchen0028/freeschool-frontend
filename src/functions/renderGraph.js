@@ -24,7 +24,7 @@ function renderGraph(graphData, onNodeClick) {
     })
     .linkDirectionalArrowLength(8)
     .linkDirectionalArrowRelPos(1)
-    .onNodeClick((node) => onNodeClick(node))
+    .onNodeClick((node) => { onNodeClick(node) })
 }
 
 export default renderGraph

@@ -34,7 +34,7 @@ function Node(focus) {
       .catch(() => setResources([]))
   }, [node.id])
 
-  useEffect(() => refresh(), [node, refresh])
+  useEffect(() => { refresh() }, [node, refresh])
 
   return (
     <div>

@@ -31,18 +31,21 @@ function App() {
       })
   }
 
-  const deleteNode = (node) => axios
-    .delete(url + "/graph/nodes/" + node.id)
-    .then((response) => {
-      refresh()
-      setFocus(null)
-      console.log("deleteNode():", response)
-    })
+  const deleteNode = (node) => {
+    axios
+      .delete(url + "/graph/nodes/" + node.id)
+      .then((response) => {
+        refresh()
+        setFocus(null)
+        console.log("deleteNode():", response)
+      })
+  }
 
   useEffect(() => {
     refresh()
     console.log("useEffect() []")
   }, [])
+
   useEffect(() => {
     renderGraph(graph, setFocus)
     console.log("useEffect() [graph]")
@@ -50,18 +53,18 @@ function App() {
 
   return (
     <div className="App">
-      <button onClick={() => refresh()}>refresh graph</button>
+      <button onClick={() => { refresh() }}>refresh graph</button>
       {focus == null ? <h1>click a node to focus</h1> :
         <div>
           <Node node={focus} />
           <form onSubmit={addNode}>
             <input value={stagedNodeTitle}
-              onChange={(event) => setStagedNodeTitle(event.target.value)}
+              onChange={(event) => { setStagedNodeTitle(event.target.value) }}
               placeholder="title" />
             <button type="submit">submit node</button>
           </form>
-          <button onClick={() => deleteNode(focus)}>delete node</button>
-          <button onClick={() => setFocus(null)}>exit focus</button>
+          <button onClick={() => { deleteNode(focus) }}>delete node</button>
+          <button onClick={() => { setFocus(null) }}>exit focus</button>
         </div>}
       <div id="graph" />
     </div>
