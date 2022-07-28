@@ -14,15 +14,13 @@ function Node(focus) {
     event.preventDefault()
     setStagedResourceUrl("")
     setStagedResourceTitle("")
-    axios
-      .post(url + "/nodes/" + node.id + "/resources", {
-        title: stagedResourceTitle,
-        url: stagedResourceUrl
-      })
-      .then(response => {
-        console.log(response)
-        refresh()
-      })
+    axios.post(url + "/nodes/" + node.id + "/resources", {
+      title: stagedResourceTitle,
+      url: stagedResourceUrl
+    }).then(response => {
+      refresh()
+      console.log("addResource():", response)
+    })
   }
 
   const refresh = useCallback(() => {
@@ -30,6 +28,7 @@ function Node(focus) {
     axios.get(url + "/nodes/" + node.id + "/resources")
       .then((response) => {
         response.data.forEach(resource => buffer.push(resource))
+        console.log("refresh():", response)
       })
       .then(() => setResources(buffer))
       .catch(() => setResources([]))

@@ -12,27 +12,41 @@ function App() {
 
   const refresh = () => axios
     .get(url + "/graph")
-    .then((response) => { setGraph(response.data) })
-
-  const addNode = () => axios
-    .post(url + "/graph/nodes", {
-      sourceId: focus.id,
-      title: stagedNodeTitle
-    })
     .then((response) => {
-      refresh()
-      setFocus(response.data)
+      setGraph(response.data)
+      console.log("refresh():", response)
     })
+
+  const addNode = (event) => {
+    event.preventDefault()
+    axios
+      .post(url + "/graph/nodes", {
+        sourceId: focus.id,
+        title: stagedNodeTitle
+      })
+      .then((response) => {
+        refresh()
+        setFocus(response.data)
+        console.log("addNode():", response)
+      })
+  }
 
   const deleteNode = (node) => axios
     .delete(url + "/graph/nodes/" + node.id)
-    .then(() => {
+    .then((response) => {
       refresh()
       setFocus(null)
+      console.log("deleteNode():", response)
     })
 
-  useEffect(() => { refresh() }, [])
-  useEffect(() => { renderGraph(graph, setFocus) }, [graph])
+  useEffect(() => {
+    refresh()
+    console.log("useEffect() []")
+  }, [])
+  useEffect(() => {
+    renderGraph(graph, setFocus)
+    console.log("useEffect() [graph]")
+  }, [graph])
 
   return (
     <div className="App">
