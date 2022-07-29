@@ -4,28 +4,23 @@ import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 
 export default function AddLinkForm(props) {
-  const [source, setSource] = useState("")
-  const [target, setTarget] = useState("")
-  const [sourceExists, setSourceExists] = useState(false)
-  const [targetExists, setTargetExists] = useState(false)
-  const [linkExists, setLinkExists] = useState(false)
+  const [source, setSource] = useState("");
+  const [target, setTarget] = useState("");
+  const [sourceExists, setSourceExists] = useState(false);
+  const [targetExists, setTargetExists] = useState(false);
+  const [linkExists, setLinkExists] = useState(false);
 
   useEffect(() => {
-    setSourceExists(props.nodes.some((node) => node.title === source))
-    console.log(props.nodes.some((node) => node.title === source))
-  }, [props.nodes, source])
+    setSourceExists(props.nodes.some((node) => node.title === source));
+  }, [props.nodes, source]);
   useEffect(() => {
-    setTargetExists(props.nodes.some((node) => node.title === target))
-    console.log(props.nodes.some((node) => node.title === target))
-  }, [props.nodes, target])
+    setTargetExists(props.nodes.some((node) => node.title === target));
+  }, [props.nodes, target]);
   useEffect(() => {
     setLinkExists(props.links.some((link) =>
       link.source === source && link.target === target
-    ))
-    console.log(props.links.some((link) =>
-      link.source === source && link.target === target
-    ))
-  }, [props.links, source, target])
+    ));
+  }, [props.links, source, target]);
 
   return (
     <Box component="form"
@@ -33,10 +28,10 @@ export default function AddLinkForm(props) {
       noValidate
       autoComplete="off"
       onSubmit={(event) => {
-        event.preventDefault()
-        props.onSubmit(source, target)
-        setSource("")
-        setTarget("")
+        event.preventDefault();
+        props.onSubmit(source, target);
+        setSource("");
+        setTarget("");
       }}>
 
       {(!sourceExists && !targetExists && !linkExists) &&
@@ -46,16 +41,16 @@ export default function AddLinkForm(props) {
             placeholder="Source Node Title"
             value={source}
             onChange={(event) => {
-              event.preventDefault()
-              setSource(event.target.value)
+              event.preventDefault();
+              setSource(event.target.value);
             }} />
           <TextField
             id="addLinkFormTarget"
             placeholder="Target Node Title"
             value={target}
             onChange={(event) => {
-              event.preventDefault()
-              setTarget(event.target.value)
+              event.preventDefault();
+              setTarget(event.target.value);
             }} />
           <Button variant="contained" disabled={true}>submit</Button>
         </div>
@@ -69,8 +64,8 @@ export default function AddLinkForm(props) {
             placeholder="Source Node Title"
             value={source}
             onChange={(event) => {
-              event.preventDefault()
-              setSource(event.target.value)
+              event.preventDefault();
+              setSource(event.target.value);
             }} />
           <TextField error
             id="addLinkFormTarget"
@@ -78,8 +73,8 @@ export default function AddLinkForm(props) {
             placeholder="Target Node Title"
             value={target}
             onChange={(event) => {
-              event.preventDefault()
-              setTarget(event.target.value)
+              event.preventDefault();
+              setTarget(event.target.value);
             }} />
           <Button variant="contained" disabled={true}>submit</Button>
         </div>
@@ -93,16 +88,16 @@ export default function AddLinkForm(props) {
             placeholder="Source Node Title"
             value={source}
             onChange={(event) => {
-              event.preventDefault()
-              setSource(event.target.value)
+              event.preventDefault();
+              setSource(event.target.value);
             }} />
           <TextField
             id="addLinkFormTarget"
             placeholder="Target Node Title"
             value={target}
             onChange={(event) => {
-              event.preventDefault()
-              setTarget(event.target.value)
+              event.preventDefault();
+              setTarget(event.target.value);
             }} />
           <Button variant="contained" disabled={true}>submit</Button>
         </div>
@@ -115,8 +110,8 @@ export default function AddLinkForm(props) {
             placeholder="Source Node Title"
             value={source}
             onChange={(event) => {
-              event.preventDefault()
-              setSource(event.target.value)
+              event.preventDefault();
+              setSource(event.target.value);
             }} />
           <TextField
             id="addLinkFormTarget"
@@ -124,8 +119,8 @@ export default function AddLinkForm(props) {
             placeholder="Target Node Title"
             value={target}
             onChange={(event) => {
-              event.preventDefault()
-              setTarget(event.target.value)
+              event.preventDefault();
+              setTarget(event.target.value);
             }} />
           <Button variant="contained" disabled={true}>submit</Button>
         </div>
@@ -138,16 +133,16 @@ export default function AddLinkForm(props) {
             placeholder="Source"
             value={source}
             onChange={(event) => {
-              event.preventDefault()
-              setSource(event.target.value)
+              event.preventDefault();
+              setSource(event.target.value);
             }} />
           <TextField
             id="addLinkFormTarget"
             placeholder="Target"
             value={target}
             onChange={(event) => {
-              event.preventDefault()
-              setTarget(event.target.value)
+              event.preventDefault();
+              setTarget(event.target.value);
             }} />
           <Button variant="contained" type="submit">submit</Button>
         </div>

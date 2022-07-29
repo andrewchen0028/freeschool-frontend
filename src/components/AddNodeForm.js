@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 
 export default function AddNodeForm(props) {
-  const [stagedTitle, setStagedTitle] = useState("")
+  const [stagedTitle, setStagedTitle] = useState("");
 
   return (
     <Box component="form"
@@ -12,9 +12,9 @@ export default function AddNodeForm(props) {
       noValidate
       autoComplete="off"
       onSubmit={(event) => {
-        event.preventDefault()
-        props.onSubmit(stagedTitle)
-        setStagedTitle("")
+        event.preventDefault();
+        props.onSubmit(stagedTitle);
+        setStagedTitle("");
       }}>
       {(props.nodes.some((node) => node.title === stagedTitle)) ? (
         <div>
@@ -24,8 +24,8 @@ export default function AddNodeForm(props) {
             placeholder="Node title"
             value={stagedTitle}
             onChange={(event) => {
-              event.preventDefault()
-              setStagedTitle(event.target.value)
+              event.preventDefault();
+              setStagedTitle(event.target.value);
             }} />
           <Button variant="contained" disabled={true}>submit</Button>
         </div>
@@ -35,8 +35,8 @@ export default function AddNodeForm(props) {
             placeholder="Node title"
             value={stagedTitle}
             onChange={(event) => {
-              event.preventDefault()
-              setStagedTitle(event.target.value)
+              event.preventDefault();
+              setStagedTitle(event.target.value);
             }} />
           <Button variant="contained" type="submit">submit</Button>
         </div>

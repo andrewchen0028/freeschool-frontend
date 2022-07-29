@@ -8,4 +8,4 @@ function Resource({ resource }) {
   )
 }
 
-export default Resource
+export default Resource;

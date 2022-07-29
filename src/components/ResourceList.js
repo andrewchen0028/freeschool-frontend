@@ -1,11 +1,11 @@
-import Resource from "./Resource"
+import Resource from "./Resource";
 
 function ResourceList({ resources }) {
-  const buffer = []
+  const buffer = [];
   resources.forEach(resource => {
     buffer.push(<Resource key={resource.id} resource={resource} />)
-  })
-  return buffer
+  });
+  return buffer;
 }
 
-export default ResourceList
+export default ResourceList;
