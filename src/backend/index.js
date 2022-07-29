@@ -21,19 +21,23 @@ app.get("/api/nodes/:id/resources", (request, response) => {
 })
 
 app.post("/api/graph/nodes/", (request, response) => {
-  const node = {
-    id: uuidv4(),
-    group: request.body.group,
-    title: request.body.title
+  if (graph.nodes.some((node) => node.title === request.body.title)) {
+    response.status(400).end()
+  } else {
+    const node = {
+      id: uuidv4(),
+      group: request.body.group,
+      title: request.body.title
+    }
+    const link = {
+      source: request.body.sourceId,
+      target: node.id,
+      id: uuidv4()
+    }
+    graph.nodes = graph.nodes.concat(node)
+    graph.links = graph.links.concat(link)
+    response.json(node).status(200).end()
   }
-  const link = {
-    source: request.body.sourceId,
-    target: node.id,
-    id: uuidv4()
-  }
-  graph.nodes = graph.nodes.concat(node)
-  graph.links = graph.links.concat(link)
-  response.json(node).status(200).end()
 })
 
 app.post("/api/nodes/:id/resources", (request, response) => {

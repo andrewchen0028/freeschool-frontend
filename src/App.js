@@ -4,21 +4,25 @@ import renderGraph from "./functions/renderGraph"
 import axios from "axios"
 import Node from "./components/Node"
 import url from "./globals"
+import AddNodeForm from "./components/AddNodeForm"
+
+// TODO: implement node title form validation (no duplicates)
+// TODO: implement prerequisite selection by node title search
 
 function App() {
   const [graph, setGraph] = useState({ nodes: [], links: [] })
   const [focus, setFocus] = useState(null)
-  const [stagedNodeTitle, setStagedNodeTitle] = useState("")
 
-  const refresh = () => axios
-    .get(url + "/graph")
-    .then((response) => {
-      setGraph(response.data)
-      console.log("refresh():", response)
-    })
+  const refresh = () => {
+    axios
+      .get(url + "/graph")
+      .then((response) => {
+        setGraph(response.data)
+        console.log("refresh():", response)
+      })
+  }
 
-  const addNode = (event) => {
-    event.preventDefault()
+  const addNode = (stagedNodeTitle) => {
     axios
       .post(url + "/graph/nodes", {
         sourceId: focus.id,
@@ -54,15 +58,10 @@ function App() {
   return (
     <div className="App">
       <button onClick={() => { refresh() }}>refresh graph</button>
+      <AddNodeForm nodes={graph.nodes} onSubmit={addNode} />
       {focus == null ? <h1>click a node to focus</h1> :
         <div>
           <Node node={focus} />
-          <form onSubmit={addNode}>
-            <input value={stagedNodeTitle}
-              onChange={(event) => { setStagedNodeTitle(event.target.value) }}
-              placeholder="title" />
-            <button type="submit">submit node</button>
-          </form>
           <button onClick={() => { deleteNode(focus) }}>delete node</button>
           <button onClick={() => { setFocus(null) }}>exit focus</button>
         </div>}
