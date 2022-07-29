@@ -20,23 +20,30 @@ app.get("/api/nodes/:id/resources", (request, response) => {
   response.json(resources[request.params.id]).status(200).end()
 })
 
-app.post("/api/graph/nodes/", (request, response) => {
-  if (graph.nodes.some((node) => node.title === request.body.title)) {
+app.post("/api/graph/nodes", (request, response) => {
+  const newNode = {
+    id: uuidv4(),
+    group: 1, // todo: change this eventually
+    title: request.body.title
+  }
+  if (graph.nodes.some((node) => node.title === newNode.title)) {
     response.status(400).end()
   } else {
-    const node = {
-      id: uuidv4(),
-      group: request.body.group,
-      title: request.body.title
-    }
-    const link = {
-      source: request.body.sourceId,
-      target: node.id,
-      id: uuidv4()
-    }
-    graph.nodes = graph.nodes.concat(node)
-    graph.links = graph.links.concat(link)
-    response.json(node).status(200).end()
+    graph.nodes = graph.nodes.concat(newNode)
+    response.json(newNode).status(200).end()
+  }
+})
+
+app.post("/api/graph/links", (request, response) => {
+  const newLink = {
+    source: request.body.source,
+    target: request.body.target
+  }
+  if (graph.links.some((link) => link === newLink)) {
+    response.status(400).end()
+  } else {
+    graph.links = graph.links.concat(newLink)
+    response.json(newLink).status(200).end()
   }
 })
 

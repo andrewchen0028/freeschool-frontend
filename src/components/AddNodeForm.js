@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 
 export default function AddNodeForm(props) {
-  const [stagedNodeTitle, stageNodeTitle] = useState("")
+  const [stagedTitle, setStagedTitle] = useState("")
 
   return (
     <Box component="form"
@@ -13,30 +13,30 @@ export default function AddNodeForm(props) {
       autoComplete="off"
       onSubmit={(event) => {
         event.preventDefault()
-        props.onSubmit(stagedNodeTitle)
-        stageNodeTitle("")
+        props.onSubmit(stagedTitle)
+        setStagedTitle("")
       }}>
-      {(props.nodes.some((node) => node.title === stagedNodeTitle)) ? (
+      {(props.nodes.some((node) => node.title === stagedTitle)) ? (
         <div>
           <TextField error
             id="outlined-error-helper-text"
             label="Title is already taken"
-            placeholder="Hello World"
-            value={stagedNodeTitle}
+            placeholder="Node title"
+            value={stagedTitle}
             onChange={(event) => {
               event.preventDefault()
-              stageNodeTitle(event.target.value)
+              setStagedTitle(event.target.value)
             }} />
           <Button variant="contained" disabled={true}>submit</Button>
         </div>
       ) : (
         <div>
           <TextField id="normal-helper-text"
-            placeholder="Hello World"
-            value={stagedNodeTitle}
+            placeholder="Node title"
+            value={stagedTitle}
             onChange={(event) => {
               event.preventDefault()
-              stageNodeTitle(event.target.value)
+              setStagedTitle(event.target.value)
             }} />
           <Button variant="contained" type="submit">submit</Button>
         </div>
