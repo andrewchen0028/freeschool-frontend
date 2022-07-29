@@ -7,6 +7,7 @@ import url from "./globals"
 import AddNodeForm from "./components/AddNodeForm"
 
 // TODO: implement node title form validation (no duplicates)
+// todo: remove staged title after submit
 // TODO: implement prerequisite selection by node title search
 
 function App() {

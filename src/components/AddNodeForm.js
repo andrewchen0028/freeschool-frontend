@@ -13,34 +13,34 @@ export default function AddNodeForm(props) {
       autoComplete="off"
       onSubmit={(event) => {
         event.preventDefault()
-        console.log(stagedNodeTitle)
         props.onSubmit(stagedNodeTitle)
+        stageNodeTitle("")
       }}>
-      <div>
-        {(props.nodes.some((node) => node.title === stagedNodeTitle)) ? (
-          <div>
-            <TextField error
-              id="outlined-error-helper-text"
-              label="Title is already taken"
-              placeholder="Hello World"
-              onChange={(event) => {
-                event.preventDefault()
-                stageNodeTitle(event.target.value)
-              }} />
-            <Button variant="contained" disabled={true}>submit</Button>
-          </div>
-        ) : (
-          <div>
-            <TextField id="normal-helper-text"
-              placeholder="Hello World"
-              onChange={(event) => {
-                event.preventDefault()
-                stageNodeTitle(event.target.value)
-              }} />
-            <Button variant="contained" type="submit">submit</Button>
-          </div>
-        )}
-      </div>
+      {(props.nodes.some((node) => node.title === stagedNodeTitle)) ? (
+        <div>
+          <TextField error
+            id="outlined-error-helper-text"
+            label="Title is already taken"
+            placeholder="Hello World"
+            value={stagedNodeTitle}
+            onChange={(event) => {
+              event.preventDefault()
+              stageNodeTitle(event.target.value)
+            }} />
+          <Button variant="contained" disabled={true}>submit</Button>
+        </div>
+      ) : (
+        <div>
+          <TextField id="normal-helper-text"
+            placeholder="Hello World"
+            value={stagedNodeTitle}
+            onChange={(event) => {
+              event.preventDefault()
+              stageNodeTitle(event.target.value)
+            }} />
+          <Button variant="contained" type="submit">submit</Button>
+        </div>
+      )}
     </Box>
   )
 }
