@@ -4,23 +4,23 @@ import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 
 export default function AddLinkForm(props) {
-  const [source, setSource] = useState("");
-  const [target, setTarget] = useState("");
+  const [sourceTitle, setSourceTitle] = useState("");
+  const [targetTitle, setTargetTitle] = useState("");
   const [sourceExists, setSourceExists] = useState(false);
   const [targetExists, setTargetExists] = useState(false);
   const [linkExists, setLinkExists] = useState(false);
 
   useEffect(() => {
-    setSourceExists(props.nodes.some((node) => node.title === source));
-  }, [props.nodes, source]);
+    setSourceExists(props.nodes.some((node) => node.title === sourceTitle));
+  }, [props.nodes, sourceTitle]);
   useEffect(() => {
-    setTargetExists(props.nodes.some((node) => node.title === target));
-  }, [props.nodes, target]);
+    setTargetExists(props.nodes.some((node) => node.title === targetTitle));
+  }, [props.nodes, targetTitle]);
   useEffect(() => {
     setLinkExists(props.links.some((link) =>
-      link.source === source && link.target === target
+      link.source.title === sourceTitle && link.target.title === targetTitle
     ));
-  }, [props.links, source, target]);
+  }, [props.links, sourceTitle, targetTitle]);
 
   return (
     <Box component="form"
@@ -29,28 +29,28 @@ export default function AddLinkForm(props) {
       autoComplete="off"
       onSubmit={(event) => {
         event.preventDefault();
-        props.onSubmit(source, target);
-        setSource("");
-        setTarget("");
-      }}>
+        props.onSubmit(sourceTitle, targetTitle);
+        setSourceTitle("");
+        setTargetTitle("");
+      }}>nig
 
       {(!sourceExists && !targetExists && !linkExists) &&
         <div>
           <TextField
             id="addLinkFormSource"
             placeholder="Source Node Title"
-            value={source}
+            value={sourceTitle}
             onChange={(event) => {
               event.preventDefault();
-              setSource(event.target.value);
+              setSourceTitle(event.target.value);
             }} />
           <TextField
             id="addLinkFormTarget"
             placeholder="Target Node Title"
-            value={target}
+            value={targetTitle}
             onChange={(event) => {
               event.preventDefault();
-              setTarget(event.target.value);
+              setTargetTitle(event.target.value);
             }} />
           <Button variant="contained" disabled={true}>submit</Button>
         </div>
@@ -62,19 +62,19 @@ export default function AddLinkForm(props) {
             id="addLinkFormSource"
             label="Link already exists"
             placeholder="Source Node Title"
-            value={source}
+            value={sourceTitle}
             onChange={(event) => {
               event.preventDefault();
-              setSource(event.target.value);
+              setSourceTitle(event.target.value);
             }} />
           <TextField error
             id="addLinkFormTarget"
             label="Link already exists"
             placeholder="Target Node Title"
-            value={target}
+            value={targetTitle}
             onChange={(event) => {
               event.preventDefault();
-              setTarget(event.target.value);
+              setTargetTitle(event.target.value);
             }} />
           <Button variant="contained" disabled={true}>submit</Button>
         </div>
@@ -86,18 +86,18 @@ export default function AddLinkForm(props) {
             id="addLinkFormSource"
             label="Source node not found"
             placeholder="Source Node Title"
-            value={source}
+            value={sourceTitle}
             onChange={(event) => {
               event.preventDefault();
-              setSource(event.target.value);
+              setSourceTitle(event.target.value);
             }} />
           <TextField
             id="addLinkFormTarget"
             placeholder="Target Node Title"
-            value={target}
+            value={targetTitle}
             onChange={(event) => {
               event.preventDefault();
-              setTarget(event.target.value);
+              setTargetTitle(event.target.value);
             }} />
           <Button variant="contained" disabled={true}>submit</Button>
         </div>
@@ -108,19 +108,19 @@ export default function AddLinkForm(props) {
           <TextField
             id="addLinkFormSource"
             placeholder="Source Node Title"
-            value={source}
+            value={sourceTitle}
             onChange={(event) => {
               event.preventDefault();
-              setSource(event.target.value);
+              setSourceTitle(event.target.value);
             }} />
           <TextField
             id="addLinkFormTarget"
             label="Target node not found"
             placeholder="Target Node Title"
-            value={target}
+            value={targetTitle}
             onChange={(event) => {
               event.preventDefault();
-              setTarget(event.target.value);
+              setTargetTitle(event.target.value);
             }} />
           <Button variant="contained" disabled={true}>submit</Button>
         </div>
@@ -131,18 +131,18 @@ export default function AddLinkForm(props) {
           <TextField
             id="addLinkFormSource"
             placeholder="Source"
-            value={source}
+            value={sourceTitle}
             onChange={(event) => {
               event.preventDefault();
-              setSource(event.target.value);
+              setSourceTitle(event.target.value);
             }} />
           <TextField
             id="addLinkFormTarget"
             placeholder="Target"
-            value={target}
+            value={targetTitle}
             onChange={(event) => {
               event.preventDefault();
-              setTarget(event.target.value);
+              setTargetTitle(event.target.value);
             }} />
           <Button variant="contained" type="submit">submit</Button>
         </div>
