@@ -25,17 +25,15 @@ function App() {
       console.log("addSingleNode():", response);
     });
 
-  const addSingleLink = (sourceTitle, targetTitle) => {
-    const sourceID = graph.nodes.find((node) => node.title === sourceTitle).id;
-    const targetID = graph.nodes.find((node) => node.title === targetTitle).id;
-    axios
-      .post(url + "/graph/links", { source: sourceID, target: targetID })
-      .then((response) => {
-        refresh();
-        console.log("addSingleLink():", response);
-      });
-  }
-
+  const addSingleLink = (sourceTitle, targetTitle) => axios
+    .post(url + "/graph/links", {
+      source: graph.nodes.find((node) => node.title === sourceTitle).id,
+      target: graph.nodes.find((node) => node.title === targetTitle).id
+    })
+    .then((response) => {
+      refresh();
+      console.log("addSingleLink():", response);
+    });
 
   const deleteNode = (node) => axios
     .delete(url + "/graph/nodes/" + node.id)

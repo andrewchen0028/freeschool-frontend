@@ -13,11 +13,16 @@ export default function AddLinkForm(props) {
   useEffect(() => {
     setSourceExists(props.nodes.some((node) => node.title === sourceTitle));
   }, [props.nodes, sourceTitle]);
+
   useEffect(() => {
     setTargetExists(props.nodes.some((node) => node.title === targetTitle));
   }, [props.nodes, targetTitle]);
+
   useEffect(() => {
     setLinkExists(props.links.some((link) =>
+      link.source.title === sourceTitle && link.target.title === targetTitle
+    ));
+    console.log(props.links.some((link) =>
       link.source.title === sourceTitle && link.target.title === targetTitle
     ));
   }, [props.links, sourceTitle, targetTitle]);
@@ -32,8 +37,7 @@ export default function AddLinkForm(props) {
         props.onSubmit(sourceTitle, targetTitle);
         setSourceTitle("");
         setTargetTitle("");
-      }}>nig
-
+      }}>
       {(!sourceExists && !targetExists && !linkExists) &&
         <div>
           <TextField
