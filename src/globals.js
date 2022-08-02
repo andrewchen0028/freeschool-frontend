@@ -1,3 +1,3 @@
-const url = "http://localhost:3001/api";
+const url = "https://freeschool-backend.herokuapp.com/api";
 
 export default url;

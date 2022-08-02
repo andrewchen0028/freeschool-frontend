@@ -22,9 +22,6 @@ export default function AddLinkForm(props) {
     setLinkExists(props.links.some((link) =>
       link.source.title === sourceTitle && link.target.title === targetTitle
     ));
-    console.log(props.links.some((link) =>
-      link.source.title === sourceTitle && link.target.title === targetTitle
-    ));
   }, [props.links, sourceTitle, targetTitle]);
 
   return (
