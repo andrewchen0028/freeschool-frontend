@@ -7,7 +7,7 @@ import url from "./globals";
 import AddNodeForm from "./components/AddNodeForm";
 import AddLinkForm from "./components/AddLinkForm";
 
-function App() {
+export default function App() {
   const [graph, setGraph] = useState({ nodes: [], links: [] });
   const [focus, setFocus] = useState(null);
 
@@ -65,5 +65,3 @@ function App() {
     </div>
   )
 }
-
-export default App;

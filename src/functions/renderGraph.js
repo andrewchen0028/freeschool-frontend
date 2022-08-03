@@ -1,6 +1,6 @@
 import ForceGraph from "force-graph";
 
-function renderGraph(graphData, onNodeClick) {
+export default function renderGraph(graphData, onNodeClick) {
   const graph = ForceGraph();
   graph(document.getElementById("graph"))
     .graphData(graphData)
@@ -30,7 +30,8 @@ function renderGraph(graphData, onNodeClick) {
     })
     .linkDirectionalArrowLength(8)
     .linkDirectionalArrowRelPos(1)
-    .onNodeClick((node) => { onNodeClick(node) });
+    .onNodeClick((node) => {
+      graph.centerAt(node.x, node.y, 250);
+      onNodeClick(node);
+    });
 }
-
-export default renderGraph;
