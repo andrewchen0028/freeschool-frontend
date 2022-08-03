@@ -1,9 +1,12 @@
 import ForceGraph from "force-graph";
 
-export default function renderGraph(graphData, onNodeClick) {
-  const graph = ForceGraph();
-  graph(document.getElementById("graph"))
-    .graphData(graphData)
+export default function initializeGraph(graphRef, setFocus) {
+  graphRef.current = ForceGraph();
+  graphRef.current
+    .onNodeClick((node) => {
+      graphRef.current.centerAt(node.x, node.y, 250);
+      setFocus(node);
+    })
     .nodeAutoColorBy("group")
     .nodeCanvasObject((node, ctx, globalScale) => {
       const label = node.title;
@@ -20,7 +23,6 @@ export default function renderGraph(graphData, onNodeClick) {
         node.y - bckgDimensions[1] / 2,
         ...bckgDimensions
       );
-
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillStyle = node.color;
@@ -29,9 +31,7 @@ export default function renderGraph(graphData, onNodeClick) {
       node.__bckgDimensions = bckgDimensions; // to use in nodePointerAreaPaint
     })
     .linkDirectionalArrowLength(8)
-    .linkDirectionalArrowRelPos(1)
-    .onNodeClick((node) => {
-      graph.centerAt(node.x, node.y, 250);
-      onNodeClick(node);
-    });
+    .linkDirectionalArrowRelPos(1);
+
+  return graphRef.current;
 }

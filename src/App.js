@@ -1,66 +1,82 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import renderGraph from "./functions/renderGraph";
 import axios from "axios";
-import Node from "./components/Node";
 import url from "./globals";
-import AddNodeForm from "./components/AddNodeForm";
 import AddLinkForm from "./components/AddLinkForm";
+import AddNodeForm from "./components/AddNodeForm";
+import initializeGraph from "./functions/initializeGraph";
+import Node from "./components/Node";
 
 export default function App() {
-  const [graph, setGraph] = useState({ nodes: [], links: [] });
+  const [nodes, setNodes] = useState([]);
+  const [links, setLinks] = useState([]);
   const [focus, setFocus] = useState(null);
 
-  const refresh = () => axios
-    .get(url + "/graph")
-    .then((response) => {
-      setGraph(response.data);
-      console.log("refresh():", response);
-    });
+  const graphRef = useRef();
+  if (!graphRef.current) {
+    graphRef.current = initializeGraph(graphRef, setFocus);
+  }
 
-  const addSingleNode = (title) => axios
-    .post(url + "/graph/nodes", { title: title })
-    .then((response) => {
-      refresh();
-      console.log("addSingleNode():", response);
-    });
+  const refresh = () => {
+    axios
+      .get(url + "/graph")
+      .then((response) => {
+        setNodes(response.data.nodes);
+        setLinks(response.data.links);
+        console.log(response);
+      });
+  }
 
-  const addSingleLink = (sourceTitle, targetTitle) => axios
-    .post(url + "/graph/links", {
-      source: graph.nodes.find((node) => node.title === sourceTitle).id,
-      target: graph.nodes.find((node) => node.title === targetTitle).id
-    })
-    .then((response) => {
-      refresh();
-      console.log("addSingleLink():", response);
-    });
+  const addNode = (title) => {
+    axios
+      .post(url + "/graph/nodes", { title: title })
+      .then((response) => {
+        refresh();
+        console.log(response);
+      });
+  }
 
-  const deleteNode = (node) => axios
-    .delete(url + "/graph/nodes/" + node.id)
-    .then((response) => {
-      refresh();
-      setFocus(null);
-      console.log("deleteNode():", response);
-    });
+  const addLink = (sourceTitle, targetTitle) => {
+    axios
+      .post(url + "/graph/links", {
+        source: nodes.find((node) => node.title === sourceTitle).id,
+        target: nodes.find((node) => node.title === targetTitle).id
+      })
+      .then((response) => {
+        refresh();
+        console.log(response);
+      });
+  }
 
+  const deleteNode = (node) => {
+    axios
+      .delete(url + "/graph/nodes/" + node.id)
+      .then((response) => {
+        refresh();
+        setFocus(null);
+        console.log(response);
+      });
+  }
 
   useEffect(() => { refresh(); }, []);
 
-  useEffect(() => { renderGraph(graph, setFocus); }, [graph]);
+  useEffect(() => {
+    graphRef
+      .current(document.getElementById("graph"))
+      .graphData({ nodes: nodes, links: links });
+  }, [nodes, links]);
 
   return (
     <div className="App">
-      <button onClick={() => { refresh(); }}>refresh graph</button>
-      <AddNodeForm nodes={graph.nodes} onSubmit={addSingleNode} />
-      <AddLinkForm nodes={graph.nodes}
-        links={graph.links}
-        onSubmit={addSingleLink} />
-      {focus == null ? <h1>click a node to focus</h1> :
+      <AddNodeForm nodes={nodes} onSubmit={addNode} />
+      <AddLinkForm nodes={nodes} links={links} onSubmit={addLink} />
+      {focus == null ? <h1>click to focus</h1> :
         <div>
           <Node node={focus} />
-          <button onClick={() => { deleteNode(focus); }}>delete node</button>
           <button onClick={() => { setFocus(null); }}>exit focus</button>
-        </div>}
+          <button onClick={() => { deleteNode(focus); }}>delete node</button>
+        </div>
+      }
       <div id="graph" />
     </div>
   )
