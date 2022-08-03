@@ -3,11 +3,12 @@ import ForceGraph from "force-graph";
 export default function initializeGraph(graphRef, setFocus) {
   graphRef.current = ForceGraph();
   graphRef.current
+    .linkDirectionalArrowLength(8)
+    .linkDirectionalArrowRelPos(1)
     .onNodeClick((node) => {
       graphRef.current.centerAt(node.x, node.y, 250);
       setFocus(node);
     })
-    .nodeAutoColorBy("group")
     .nodeCanvasObject((node, ctx, globalScale) => {
       const label = node.title;
       const fontSize = 14 / globalScale;
@@ -29,9 +30,7 @@ export default function initializeGraph(graphRef, setFocus) {
       ctx.fillText(label, node.x, node.y);
 
       node.__bckgDimensions = bckgDimensions; // to use in nodePointerAreaPaint
-    })
-    .linkDirectionalArrowLength(8)
-    .linkDirectionalArrowRelPos(1);
+    });
 
   return graphRef.current;
 }
