@@ -7,56 +7,44 @@ import NodeWindow from "./components/NodeWindow";
 import { Box } from "@mui/system";
 
 export default function App() {
-  const [graph, setGraph] = useState({ nodes: [], links: [] });
+  const [nodes, setNodes] = useState([]);
+  const [links, setLinks] = useState([]);
   const [focus, setFocus] = useState(null);
 
-  const graphRef = useRef();
-  graphRef.current = initializeGraph(graphRef, setFocus);
+  const graph = useRef();
+  graph.current = initializeGraph(graph, setFocus);
 
   const refresh = () => axios
     .get(url + "/graph")
     .then((response) => {
-      setGraph({
-        nodes: response.data.nodes,
-        links: response.data.links
-      });
+      setNodes(response.data.nodes);
+      setLinks(response.data.links);
       setFocus(null);
       console.log(response);
     });
 
   const addNode = (title) => axios
-    .post(url + "/graph/nodes", { title: title })
-    .then((response) => {
-      refresh();
-      console.log(response);
-    });
+    .post(url + "/nodes", { title: title })
+    .then((response) => { refresh(); console.log(response); });
 
   const addLink = (sourceTitle, targetTitle) => axios
     .post(url + "/graph/links", {
-      source: graph.nodes.find((node) => node.title === sourceTitle).id,
-      target: graph.nodes.find((node) => node.title === targetTitle).id
+      source: nodes.find((node) => node.title === sourceTitle).id,
+      target: nodes.find((node) => node.title === targetTitle).id
     })
-    .then((response) => {
-      refresh();
-      console.log(response);
-    });
+    .then((response) => { refresh(); console.log(response); });
 
   const deleteNode = (node) => axios
-    .delete(url + "/graph/nodes/" + node.id)
-    .then((response) => {
-      refresh();
-      console.log(response);
-    });
+    .delete(url + "/nodes/" + node.id)
+    .then((response) => { refresh(); console.log(response); });
 
   useEffect(() => { refresh(); }, []);
 
   useEffect(() => {
-    if (graph.nodes) {
-      graphRef
-        .current(document.getElementById("graph"))
-        .graphData({ nodes: graph.nodes, links: graph.links });
-    }
-  }, [graph]);
+    if (nodes) graph
+      .current(document.getElementById("graph"))
+      .graphData({ nodes: nodes, links: links });
+  }, [nodes, links]);
 
   return (
     <div className="App">
@@ -65,7 +53,7 @@ export default function App() {
           addNode={addNode} addLink={addLink}
           delete={() => { deleteNode(focus); }}
           exit={() => { setFocus(null); }}
-          focus={focus} nodes={graph.nodes} links={graph.links}
+          focus={focus} nodes={nodes} links={links}
         />
       }
       <Box id="graph"
