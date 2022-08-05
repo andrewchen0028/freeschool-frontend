@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 
+// DEPRECATED
 export default function AddLinkForm(props) {
   const [sourceTitle, setSourceTitle] = useState("");
   const [targetTitle, setTargetTitle] = useState("");
