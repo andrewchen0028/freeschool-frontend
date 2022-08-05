@@ -4,6 +4,7 @@ import url from "./globals";
 import NodeWindow from "./components/NodeWindow";
 import initializeGraph from "./functions/initializeGraph";
 
+// TODO #1: Flesh out resource schema and implement scores.
 export default function App() {
   const [nodes, setNodes] = useState([]);
   const [links, setLinks] = useState([]);
@@ -46,9 +47,9 @@ export default function App() {
           <NodeWindow id="node-window"
             nodes={nodes}
             links={links}
-            deleteNode={deleteNode}
             focus={focus}
-            setFocus={setFocus} />
+            setFocus={setFocus}
+            deleteNode={deleteNode} />
         </div> : <div />}
       <div id="graph" style={{ position: "absolute", zIndex: 1 }} />
     </div>

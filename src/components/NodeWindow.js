@@ -34,8 +34,6 @@ export default function NodeWindow(props) {
         <option value="resources" defaultChecked>resources</option>
         <option value="inlinks">inlinks</option>
         <option value="outlinks">outlinks</option>
-        <option value="supernodes">supernodes</option>
-        <option value="subnodes">subnodes</option>
       </select>
 
       <CardList
@@ -47,8 +45,6 @@ export default function NodeWindow(props) {
   )
 
 }
-
-
 
 // const [stagedResourceTitle, setStagedResourceTitle] = useState("");
 // const [stagedResourceUrl, setStagedResourceUrl] = useState("");

@@ -17,6 +17,7 @@ export default function LinkCard(props) {
       .then((response) => { setOtherNode(response.data); })
   }, [props])
 
+  // TODO: Clean this up at some point. "Preposition" function is really dumb.
   const preposition = () => {
     switch (props.type) {
       case "in": return "from";
