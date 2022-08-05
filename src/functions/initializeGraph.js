@@ -1,14 +1,11 @@
 import ForceGraph from "force-graph";
 
-export default function initializeGraph(graphRef, setFocus) {
-  graphRef.current = ForceGraph();
-  graphRef.current
+export default function initializeGraph(graph, setFocus) {
+  graph.current = ForceGraph();
+  graph.current
     .linkDirectionalArrowLength(8)
     .linkDirectionalArrowRelPos(1)
-    .onNodeClick((node) => {
-      graphRef.current.centerAt(node.x, node.y, 250);
-      setFocus(node);
-    })
+    .onNodeClick((node) => { setFocus(node); })
     .nodeCanvasObject((node, ctx, globalScale) => {
       const label = node.title;
       const fontSize = 14 / globalScale;
@@ -32,5 +29,5 @@ export default function initializeGraph(graphRef, setFocus) {
       node.__bckgDimensions = bckgDimensions; // to use in nodePointerAreaPaint
     });
 
-  return graphRef.current;
+  return graph.current;
 }
