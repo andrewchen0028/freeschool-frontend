@@ -11,7 +11,6 @@ export default function App() {
   const [focus, setFocus] = useState(null);
 
   const graph = useRef();
-  graph.current = initializeGraph(graph, setFocus);
 
   const refresh = () => axios
     .get(url + "/graph")
@@ -25,7 +24,10 @@ export default function App() {
     .delete(url + "/nodes/" + node.id)
     .then((_response) => { refresh(); });
 
-  useEffect(() => { refresh(); }, []);
+  useEffect(() => {
+    graph.current = initializeGraph(graph, setFocus);
+    refresh();
+  }, []);
 
   useEffect(() => {
     if (nodes) graph
