@@ -34,7 +34,7 @@ export default function LinkCard(props) {
   return (
     <div id={"link-card-" + props.link.id}>
       {otherNode && <p>
-        {preposition()} <a href="/" onClick={handleClick}>{otherNode.title}</a>
+        {preposition()} <a href="/" onClick={handleClick}>{otherNode.id}</a>
       </p>}
     </div >
   )

@@ -23,7 +23,7 @@ export default function NodeWindow(props) {
 
   return (
     <div id="node-window-div">
-      <h1>{props.focus.title}</h1>
+      <h1>{props.focus.id}</h1>
       <button onClick={() => props.setFocus(null)}>exit</button>
       <button onClick={() => props.deleteNode(props.focus)}>delete</button>
 

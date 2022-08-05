@@ -4,7 +4,9 @@ import url from "./globals";
 import NodeWindow from "./components/NodeWindow";
 import initializeGraph from "./functions/initializeGraph";
 
-// TODO #1: Flesh out resource schema and implement scores.
+// CURRENT: Fix drag render bug.
+// TODO #2: Implement zoom-to-focus and zoom-to-fit.
+// TODO #3: Flesh out resource schema and implement scores.
 export default function App() {
   const [nodes, setNodes] = useState([]);
   const [links, setLinks] = useState([]);

@@ -3,14 +3,13 @@ import ForceGraph from "force-graph";
 export default function initializeGraph(graph, setFocus) {
   graph.current = ForceGraph();
   graph.current
-    .linkDirectionalArrowLength(8)
-    .linkDirectionalArrowRelPos(1)
+    .linkDirectionalArrowLength(4)
+    .linkDirectionalArrowRelPos(0.5)
     .onNodeClick((node) => { setFocus(node); })
     .nodeCanvasObject((node, ctx, globalScale) => {
-      const label = node.title;
       const fontSize = 14 / globalScale;
       ctx.font = `${fontSize}px Sans-Serif`;
-      const textWidth = ctx.measureText(label).width;
+      const textWidth = ctx.measureText(node.id).width;
       const bckgDimensions =
         [textWidth, fontSize]
           .map(n => n + fontSize * 0.2); // some padding
@@ -24,7 +23,7 @@ export default function initializeGraph(graph, setFocus) {
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillStyle = node.color;
-      ctx.fillText(label, node.x, node.y);
+      ctx.fillText(node.id, node.x, node.y);
 
       node.__bckgDimensions = bckgDimensions; // to use in nodePointerAreaPaint
     });
