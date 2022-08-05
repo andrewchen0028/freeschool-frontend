@@ -20,12 +20,9 @@ export default function App() {
       setFocus(null);
     });
 
-  const deleteNode = (node) => {
-    console.log("deleteNode()");
-    axios
-      .delete(url + "/nodes/" + node.id)
-      .then((_response) => { refresh(); });
-  }
+  const deleteNode = (node) => axios
+    .delete(url + "/nodes/" + node.id)
+    .then((_response) => { refresh(); });
 
   useEffect(() => { refresh(); }, []);
 

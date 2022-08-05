@@ -3,7 +3,7 @@ import axios from "axios";
 import url from "../globals";
 
 export default function LinkCard(props) {
-  const [object, setObject] = useState();
+  const [otherNode, setOtherNode] = useState();
 
   useEffect(() => {
     let nodeId;
@@ -14,7 +14,7 @@ export default function LinkCard(props) {
     }
     axios
       .get(url + "/nodes/" + nodeId)
-      .then((response) => { setObject(response.data[0]); })
+      .then((response) => { setOtherNode(response.data); })
   }, [props])
 
   const preposition = () => {
@@ -27,13 +27,13 @@ export default function LinkCard(props) {
 
   const handleClick = (event) => {
     event.preventDefault();
-    props.setFocus(object);
+    props.setFocus(otherNode);
   }
 
   return (
     <div id={"link-card-" + props.link.id}>
-      {object && <p>
-        {preposition()} <a href="/" onClick={handleClick}>{object.title}</a>
+      {otherNode && <p>
+        {preposition()} <a href="/" onClick={handleClick}>{otherNode.title}</a>
       </p>}
     </div >
   )
