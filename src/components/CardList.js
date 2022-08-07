@@ -1,14 +1,15 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
 import LinkCard from "./LinkCard";
 import ResourceCard from "./ResourceCard";
 
-export default function CardList(props) {
+export default function CardList({ items, types, setTypes }) {
   const [cards, setCards] = useState([]);
 
-  const refreshCards = useCallback(() => {
+  useEffect(() => {
     let cardsBuffer = [];
-    props.items.forEach((item) => {
-      switch (props.types) {
+    items.forEach((item) => {
+      switch (types) {
         case "resources": return cardsBuffer.push(
           <ResourceCard id={"resource-card-" + item.id}
             key={item.id}
@@ -19,22 +20,20 @@ export default function CardList(props) {
             key={item.id}
             type="in"
             link={item}
-            setFocus={props.setFocus} />
+            setTypes={setTypes} />
         );
         case "outlinks": return cardsBuffer.push(
           <LinkCard id={"link-card-" + item.id}
             key={item.id}
             type="out"
             link={item}
-            setFocus={props.setFocus} />
+            setTypes={setTypes} />
         );
         default: return;
       }
     })
     setCards(cardsBuffer);
-  }, [props]);
-
-  useEffect(() => { refreshCards(); }, [props, refreshCards]);
+  }, [items, types, setTypes]);
 
   return (
     <div id="card-list-div">
