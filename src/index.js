@@ -3,19 +3,20 @@ import ReactDOM from "react-dom/client";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import GraphPage from "./pages/GraphPage";
-import NodePage from "./pages/NodePage";
+import App from "./pages/App";
+import NodeWindow from "./pages/NodeWindow";
 import NotFoundPage from "./pages/NotFoundPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<GraphPage />} />
-        <Route path="/nodes/:id" element={<NodePage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </BrowserRouter>
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<App />}>
+        <Route path="/nodes/:id" element={<NodeWindow />} />
+      </Route>
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+  </BrowserRouter>
   // </React.StrictMode>
 );

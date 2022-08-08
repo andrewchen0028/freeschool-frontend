@@ -2,12 +2,13 @@ import { useEffect, useRef } from "react"
 
 import ForceGraph from "force-graph";
 
-import GraphDataManager from "../components/GraphDataManager";
+import GraphCanvas from "../components/GraphCanvas";
+import { Outlet } from "react-router-dom";
 
-export default function GraphPage() {
+export default function App() {
   const graphRef = useRef();
 
-  // Put graph functionality into GraphDataManager so we
+  // Put graph functionality into GraphCanvas so we
   // can access graph data in the functions.
   useEffect(() => {
     graphRef.current = ForceGraph()(document.getElementById("graph"))
@@ -37,6 +38,15 @@ export default function GraphPage() {
   }, []);
 
   // Note: try <div id="graph" /> in both GraphPage() and
-  // in GraphDataManager() if rendering bug occurs.
-  return <GraphDataManager graphRef={graphRef} />;
+  // in GraphCanvas() if rendering bug occurs.
+  return (
+    <div id="app">
+      <div style={{ position: "absolute", zIndex: 1 }}>
+        <GraphCanvas graphRef={graphRef} />
+      </div>
+      <div style={{ position: "absolute", zIndex: 2 }}>
+        <Outlet />
+      </div>
+    </div>
+  );
 }

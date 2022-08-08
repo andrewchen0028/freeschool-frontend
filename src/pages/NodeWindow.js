@@ -6,7 +6,7 @@ import axios from "axios";
 import url from "../globals";
 import CardList from "../components/CardList";
 
-export default function NodePage() {
+export default function NodeWindow() {
   const [items, setItems] = useState([]);
   const [types, setTypes] = useState("resources");
 
@@ -23,16 +23,20 @@ export default function NodePage() {
       });
   }, [types, params.id]);
 
-  const exitNode = () => { navigate(`/`); }
+  // NOTE: `state.stale` is never actually read; graph just sees
+  // that `state` is now defined and therefore triggers a re-render.
+  const exitNode = () => { navigate(`/`, { state: { stale: true } }); }
+
   const deleteNode = () => {
+    console.log(params.id);
     axios
       .delete(url + "/nodes/" + params.id)
       .then((_response) => { exitNode(); });
   }
 
   return (
-    <div id="node-page-div">
-      <h1>{params.id} node page</h1>
+    <div id="node-window-div">
+      <h1>{params.id} node window</h1>
       <button onClick={exitNode}>exit node</button>
       <button onClick={deleteNode}>delete node</button>
 
