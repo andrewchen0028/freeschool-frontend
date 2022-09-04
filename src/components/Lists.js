@@ -23,7 +23,6 @@ export function InlinkList() {
 
   return (
     <div>
-      <h1>{params.id} inlinks</h1>
       {list}
     </div>
   );
@@ -47,7 +46,6 @@ export function OutlinkList() {
 
   return (
     <div>
-      <h1>{params.id} outlinks</h1>
       {list}
     </div>
   );
@@ -69,7 +67,6 @@ export function ResourceList() {
 
   return (
     <div>
-      <h1>{params.id} resources</h1>
       {list}
     </div>
   );

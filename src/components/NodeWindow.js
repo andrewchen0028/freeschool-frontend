@@ -16,9 +16,11 @@ export default function NodeWindow() {
       backgroundColor: "lightgrey",
       borderStyle: "solid",
       position: "absolute",
-      margin: "25%",
-      height: "50%",
-      width: "50%",
+      opacity: "80%",
+      padding: "1em",
+      // margin: "12%",
+      // height: "50%",
+      // width: "50%",
       zIndex: 2
     }}>
 
