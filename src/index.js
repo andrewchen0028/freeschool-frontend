@@ -1,22 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import App from "./pages/App";
-import NodeWindow from "./pages/NodeWindow";
-import NotFoundPage from "./pages/NotFoundPage";
+import GraphCanvas from "./components/GraphCanvas";
+import NodeWindow from "./components/NodeWindow";
+import { InlinkList, OutlinkList, ResourceList } from "./components/Lists";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  // <React.StrictMode>
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<App />}>
-        <Route path="/nodes/:id" element={<NodeWindow />} />
+      <Route path="/" element={<GraphCanvas />}>
+        <Route path="nodes/:id" element={<NodeWindow />}>
+          <Route path="inlinks" element={<InlinkList />} />
+          <Route path="outlinks" element={<OutlinkList />} />
+          <Route path="resources" element={<ResourceList />} />
+        </Route>
       </Route>
-      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   </BrowserRouter>
-  // </React.StrictMode>
 );
