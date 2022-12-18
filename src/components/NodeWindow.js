@@ -1,56 +1,37 @@
 import { useEffect, useState } from "react";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
+import NodeHeaderContent from "./NodeHeaderContent";
+import NodeItemField from "./NodeItemField";
+import NodeItemList from "./NodeItemList";
+import NodeItemSelector from "./NodeItemSelector";
+import NodeScoreBlock from "./NodeScoreBlock";
+import NodeWindowExitButton from "./NodeWindowExitButton";
 
 export default function NodeWindow() {
   const [cardType, setCardType] = useState("");
 
-  const navigate = useNavigate();
   const params = useParams();
 
   // Reset card type upon navigating to a new node
   useEffect(() => { setCardType("resources"); }, [params.id]);
 
   return (
-    // Containing box
-    <div style={{
-      backgroundColor: "lightgrey",
-      borderStyle: "solid",
-      position: "absolute",
-      opacity: "80%",
-      padding: "1em",
-      // margin: "12%",
-      // height: "50%",
-      // width: "50%",
-      zIndex: 2
-    }}>
+    // NodeWindow container
+    <div id="node-window"
+      className="border-x border-theme-gray-dark bg-theme-white
+      absolute h-screen w-4/5 z-20
+      flex flex-col items-start gap-4 p-4">
 
-      {/* Title headline */}
-      <h1>{params.id}</h1>
+      <div id="node-header" className="flex flex-row self-stretch gap-4">
+        <NodeScoreBlock />
+        <NodeHeaderContent title={params.id} />
+        <NodeWindowExitButton />
+      </div>
 
-      {/* Exit button */}
-      <button
-        onClick={() => navigate(`/`)}
-        style={{
-          position: "absolute",
-          top: 0,
-          right: 0
-        }}>X</button>
-
-      {/* Item type selector */}
-      <select id="item-type-select"
-        name="item-type"
-        value={cardType}
-        onChange={(event) => {
-          setCardType(event.target.value);
-          navigate(`${event.target.value}`);
-        }}>
-        <option value="resources" defaultChecked>resources</option>
-        <option value="inlinks">inlinks</option>
-        <option value="outlinks">outlinks</option>
-      </select>
-
-      {/* Item list outlet */}
-      <Outlet />
+      <NodeItemSelector cardType={cardType} setCardType={setCardType} />
+      <NodeItemField cardType={cardType} />
+      <NodeItemList />
 
     </div >
   );

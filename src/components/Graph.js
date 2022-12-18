@@ -2,11 +2,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 
-import url from "../globals";
+import { url } from "../globals";
 
 // TODO:
-// - implement gmaps-style drawer
+// - pan & zoom to focus on page reload
 // - implement focus node highlighting
+// - fix graph panning slightly on any action
 export default function Graph({ graphRef }) {
   const [nodes, setNodes] = useState([]);
   const [links, setLinks] = useState([]);
@@ -26,33 +27,38 @@ export default function Graph({ graphRef }) {
 
   // Update focus on navigation
   useEffect(() => {
-    if (graphRef.current) setFocus(
-      graphRef.current.graphData().nodes.find(node => node.id === params.id)
-    );
+    if (graphRef.current) {
+      const focus = graphRef.current.graphData().nodes
+        .find(node => node.id === params.id);
+      setFocus(focus);
+      if (focus) {
+        graphRef.current.centerAt(focus.x, focus.y).zoom(8);
+      }
+    }
   }, [params.id, graphRef]);
 
-  // Pan and zoom to focus
-  useEffect(() => {
-    if (focus && graphRef.current) {
-      graphRef.current.centerAt(focus.x, focus.y, 500);
-      graphRef.current.zoom(8, 500);
-    }
-  }, [focus, graphRef]);
 
   // Update graph
   useEffect(() => {
     if (graphRef.current) graphRef.current
       .graphData({ nodes: nodes, links: links })
       .onNodeClick((node) => {
-        setFocus(node);
-        setTimeout(() => { navigate(`nodes/${node.id}/resources`); }, 500);
+        graphRef.current
+          .centerAt(node.x, node.y, 500)
+          .zoom(8, 500);
+        setTimeout(() => {
+          navigate(`nodes/${node.id}/resources`);
+          setFocus(node);
+        }, 500);
       })
   }, [graphRef, nodes, links, navigate]);
 
   return (
     <div>
-      <div id="graph" style={{ position: "absolute", zIndex: 1 }} />
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+      <div id="graph" className={`absolute z-10 ${focus
+        ? "bg-theme-black opacity-50"
+        : "bg-theme-gray-xlight"}`} />
+      <div className="flex justify-center items-center h-screen">
         <Outlet />
       </div>
     </div>

@@ -1,10 +1,19 @@
 import ForceGraph from "force-graph";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 import Graph from "./Graph";
+import TopBar from "./TopBar";
+import { themeColors } from "../globals";
 
 export default function GraphCanvas() {
   const graphRef = useRef();
+
+  const paintRing = useCallback((node, color, ctx, radius) => {
+    ctx.beginPath();
+    ctx.fillStyle = color;
+    ctx.arc(node.x, node.y, radius, 0, Math.PI * 2, false);
+    ctx.fill();
+  }, []);
 
   useEffect(() => {
     graphRef.current = ForceGraph()(document.getElementById("graph"))
@@ -12,29 +21,27 @@ export default function GraphCanvas() {
       .linkDirectionalArrowRelPos(0.5)
       .nodeCanvasObject((node, ctx, globalScale) => {
         const fontSize = graphRef.current.zoom() * 4 / globalScale;
-        const padding = 0.2;
+        const textWidth = ctx.measureText(node.id).width;
+
+        paintRing(node, themeColors.gray.light, ctx, textWidth / 2 + 2);
+        paintRing(node, themeColors.white, ctx, textWidth / 2 + 1);
 
         ctx.font = `${fontSize}px Sans-Serif`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillStyle = "#4285F4";
+        ctx.fillStyle = themeColors.blue.light;
         ctx.fillText(node.id, node.x, node.y);
 
-        node.__bckgDimensions = [ctx.measureText(node.id).width, fontSize]
-          .map(n => n + fontSize * padding);
+        node.__bckgRadius = textWidth / 2 + 2;
       })
       .nodePointerAreaPaint((node, color, ctx) => {
-        ctx.fillStyle = color;
-        node.__bckgDimensions && ctx.fillRect(
-          node.x - node.__bckgDimensions[0] / 2,
-          node.y - node.__bckgDimensions[1] / 2,
-          ...node.__bckgDimensions
-        );
-      })
-  }, []);
+        paintRing(node, color, ctx, node.__bckgRadius);
+      });
+  }, [paintRing]);
 
   return (
-    <div id="app">
+    <div id="app" className="absolute h-screen w-screen overflow-hidden">
+      <TopBar />
       <Graph graphRef={graphRef} />
     </div>
   );

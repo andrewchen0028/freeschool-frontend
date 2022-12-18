@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { InlinkCard, OutlinkCard, ResourceCard } from "./Cards";
-import url from "../globals";
+import { url } from "../globals";
 
 export function InlinkList() {
   const [list, setList] = useState([]);
@@ -22,7 +22,15 @@ export function InlinkList() {
   }, [params.id, navigate]);
 
   return (
-    <div>
+    <div style={{
+      display: "flex",
+      flexDirection: "column",
+      gap: "1em",
+      marginTop: "1em",
+      marginBottom: "1em",
+      overflowY: "auto",
+      alignItems: "stretch"
+    }}>
       {list}
     </div>
   );
@@ -45,7 +53,15 @@ export function OutlinkList() {
   }, [params.id, navigate]);
 
   return (
-    <div>
+    <div style={{
+      display: "flex",
+      flexDirection: "column",
+      gap: "1em",
+      marginTop: "1em",
+      marginBottom: "1em",
+      overflowY: "auto",
+      alignItems: "stretch"
+    }}>
       {list}
     </div>
   );
@@ -66,7 +82,7 @@ export function ResourceList() {
   }, [params.id]);
 
   return (
-    <div>
+    <div className="flex flex-col gap-4 my-4 overflow-y-auto flex-grow">
       {list}
     </div>
   );
